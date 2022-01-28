@@ -1,0 +1,3 @@
+Visualize the music you're listening to on your desktop
+
+In progress...
