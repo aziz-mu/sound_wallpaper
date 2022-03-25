@@ -5,7 +5,7 @@ OBJECTS = main.o soundSource.o
 DEPEND = ${OBJECTS:.o=.d}
 
 ${EXEC}: ${OBJECTS}
-	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC}
+	${CXX} ${CXXFLAGS} ${OBJECTS} -o ${EXEC} -lpulse-simple -lpulse
 
 -include ${DEPENDS}
 

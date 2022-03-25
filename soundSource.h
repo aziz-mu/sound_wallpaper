@@ -8,6 +8,7 @@
 
 class soundSource{
 	pa_mainloop* pulseaudio_mainloop;
+	pa_simple *m_pulseaudio_simple;
 
 	void pa_server_info_callback();
 	void pa_context_state_callback();
