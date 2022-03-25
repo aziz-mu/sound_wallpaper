@@ -1,12 +1,13 @@
 using namespace std;
 #include <string>
 #include <iostream>
+#include <unistd.h>
 
 #include "soundSource.h"
 
 
 soundSource::soundSource(){
-	
+
 	static const int sample_rate = 44100;
 	static const int channels = 2; // TODO: Put these settings as a settings struct attribute of this class
 
@@ -17,7 +18,7 @@ soundSource::soundSource(){
 	int error_code = 0;
 	
 	cout << "Connecting to PulseAudio" << "\n";
-	m_pulseaudio_simple = pa_simple_new(nullptr, application_name, PA_STREAM_RECORD, 
+	pa_connection = pa_simple_new(nullptr, application_name, PA_STREAM_RECORD, 
 					    nullptr, stream_name, &sample_spec, 
 					    nullptr, NULL, &error_code);
 
@@ -25,7 +26,7 @@ soundSource::soundSource(){
 	if (error_code != 0){
 		error_code = 0;
 		cout << "Automatic connection didn't work, trying again with common device name" << "\n";
-		m_pulseaudio_simple = pa_simple_new(nullptr, application_name, PA_STREAM_RECORD, 
+		pa_connection = pa_simple_new(nullptr, application_name, PA_STREAM_RECORD, 
 						    "0", stream_name, &sample_spec, 
 						    nullptr, NULL, &error_code);	
 	}
@@ -39,7 +40,19 @@ soundSource::soundSource(){
 	
 }
 
-void soundSource::read_stream(){}
+void soundSource::read_stream(){
+	int error;
+	int BUFFSIZE = 1024;
+	uint8_t pcm_buffer[BUFFSIZE];
+ 
+        /* Record some data ... */
+        if (pa_simple_read(pa_connection, pcm_buffer, sizeof(pcm_buffer), &error) < 0) {
+	    cerr << "pa_simple_read() failed: error " << pa_strerror(error) << "\n";
+        }
+	cout << pcm_buffer << "\n";
+ 
+	usleep(10000);
+}
 
 soundSource::~soundSource(){}
 

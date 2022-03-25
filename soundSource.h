@@ -7,8 +7,8 @@
 #include <pulse/simple.h>
 
 class soundSource{
-	pa_mainloop* pulseaudio_mainloop;
-	pa_simple *m_pulseaudio_simple;
+	
+	pa_simple *pa_connection;
 
 	void pa_server_info_callback();
 	void pa_context_state_callback();
