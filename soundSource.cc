@@ -1,12 +1,12 @@
 using namespace std;
 #include <string>
 #include <iostream>
-#include <unistd.h>
 
 #include "soundSource.h"
 
+#define BUFFSIZE 1024
 
-soundSource::soundSource(){
+soundSource::soundSource():pcm_buffer{nullptr}{
 
 	static const int sample_rate = 44100;
 	static const int channels = 2; // TODO: Put these settings as a settings struct attribute of this class
@@ -42,17 +42,17 @@ soundSource::soundSource(){
 
 void soundSource::read_stream(){
 	int error;
-	int BUFFSIZE = 1024;
 	uint8_t pcm_buffer[BUFFSIZE];
  
         /* Record some data ... */
         if (pa_simple_read(pa_connection, pcm_buffer, sizeof(pcm_buffer), &error) < 0) {
 	    cerr << "pa_simple_read() failed: error " << pa_strerror(error) << "\n";
         }
-	cout << pcm_buffer << "\n";
- 
-	usleep(10000);
+	this->pcm_buffer = pcm_buffer;
 }
 
+uint8_t* soundSource::get_pcm_buffer(){
+	return pcm_buffer;
+}
 soundSource::~soundSource(){}
 

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <unistd.h>
 #include "soundSource.h"
 
 int main(){
@@ -17,5 +18,7 @@ int main(){
 	while (!shutdown){
 		counter++;
 		main_sound_stream->read_stream();
+		std::cout << "Output: " << main_sound_stream->get_pcm_buffer() << "\n";
+		usleep(10000);
 	}	
 }

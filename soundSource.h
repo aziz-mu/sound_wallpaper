@@ -9,6 +9,7 @@
 class soundSource{
 	
 	pa_simple *pa_connection;
+	uint8_t *pcm_buffer;
 
 	void pa_server_info_callback();
 	void pa_context_state_callback();
@@ -16,6 +17,7 @@ class soundSource{
 	public:
 	soundSource();
 	void read_stream();
+	uint8_t* get_pcm_buffer();
 	~soundSource();
 
 };
