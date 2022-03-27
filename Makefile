@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -Wall -MMD
 EXEC = sound
-OBJECTS = main.o soundSource.o
+OBJECTS = main.o soundSource.o visualizer.o
 DEPEND = ${OBJECTS:.o=.d}
 
 ${EXEC}: ${OBJECTS}
