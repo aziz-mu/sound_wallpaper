@@ -42,7 +42,7 @@ soundSource::soundSource():pcm_buffer{nullptr}{
 
 void soundSource::read_stream(){
 	int error;
-	uint8_t pcm_buffer[BUFFSIZE];
+	uint16_t pcm_buffer[BUFFSIZE];
  
         /* Record some data ... */
         if (pa_simple_read(pa_connection, pcm_buffer, sizeof(pcm_buffer), &error) < 0) {
@@ -51,7 +51,7 @@ void soundSource::read_stream(){
 	this->pcm_buffer = pcm_buffer;
 }
 
-uint8_t* soundSource::get_pcm_buffer(){
+uint16_t* soundSource::get_pcm_buffer(){
 	return pcm_buffer;
 }
 soundSource::~soundSource(){}
