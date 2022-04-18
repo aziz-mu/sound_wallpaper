@@ -4,9 +4,9 @@ using namespace std;
 
 #include "soundSource.h"
 
-#define BUFFSIZE 1024
+#define BUFFSIZE 32
 
-soundSource::soundSource():pcm_buffer{nullptr}{
+soundSource::soundSource():pcm_buffer{nullptr}, pcm_buffer_length{BUFFSIZE}{
 
 	static const int sample_rate = 44100;
 	static const int channels = 2; // TODO: Put these settings as a settings struct attribute of this class
@@ -42,7 +42,7 @@ soundSource::soundSource():pcm_buffer{nullptr}{
 
 void soundSource::read_stream(){
 	int error;
-	uint16_t pcm_buffer[BUFFSIZE];
+	uint16_t pcm_buffer[pcm_buffer_length];
  
         /* Record some data ... */
         if (pa_simple_read(pa_connection, pcm_buffer, sizeof(pcm_buffer), &error) < 0) {
@@ -53,6 +53,10 @@ void soundSource::read_stream(){
 
 uint16_t* soundSource::get_pcm_buffer(){
 	return pcm_buffer;
+}
+
+int soundSource::get_pcm_buffer_length(){
+	return pcm_buffer_length;
 }
 soundSource::~soundSource(){}
 

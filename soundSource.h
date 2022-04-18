@@ -10,13 +10,12 @@ class soundSource{
 	
 	pa_simple *pa_connection;
 	uint16_t *pcm_buffer;
-
-	void pa_server_info_callback();
-	void pa_context_state_callback();
+	int pcm_buffer_length;
 
 	public:
 	soundSource();
 	void read_stream();
+	int get_pcm_buffer_length();
 	uint16_t* get_pcm_buffer();
 	~soundSource();
 
