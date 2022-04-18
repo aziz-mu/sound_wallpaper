@@ -8,6 +8,10 @@
 
 class soundSource{
 	
+	static const int sample_rate = 44100;
+	static const int channels = 2;
+
+
 	pa_simple *pa_connection;
 	uint16_t *pcm_buffer;
 	int pcm_buffer_length;

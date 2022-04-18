@@ -4,22 +4,21 @@ using namespace std;
 
 #include "soundSource.h"
 
-#define BUFFSIZE 32
+#define BUFFSIZE 44100
 
 soundSource::soundSource():pcm_buffer{nullptr}, pcm_buffer_length{BUFFSIZE}{
-
-	static const int sample_rate = 44100;
-	static const int channels = 2; // TODO: Put these settings as a settings struct attribute of this class
 
 	// Set up new simple pulseaudio stream
 	const char* application_name = "Sound Visualizer";
 	const char* stream_name = "Sound Visualizer - Main";
+	string source_name = "alsa_output.pci-0000_00_1f.3.analog-stereo.monitor"; // TODO: Make this detect automatically
+
 	const pa_sample_spec sample_spec = {PA_SAMPLE_S16LE, sample_rate, channels};
 	int error_code = 0;
 	
 	cout << "Connecting to PulseAudio" << "\n";
 	pa_connection = pa_simple_new(nullptr, application_name, PA_STREAM_RECORD, 
-					    nullptr, stream_name, &sample_spec, 
+					    source_name.c_str(), stream_name, &sample_spec, 
 					    nullptr, NULL, &error_code);
 
 	// If connecting didn't work, try again with a common device name
