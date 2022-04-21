@@ -41,15 +41,11 @@ soundSource::soundSource():pcm_buffer{(uint8_t*) malloc(sizeof(uint8_t)*BUFFSIZE
 
 void soundSource::read_stream(){
 	int error;
-	uint8_t pcm_buffer[pcm_buffer_length];
  
         /* Record some data ... */
-        if (pa_simple_read(pa_connection, pcm_buffer, sizeof(pcm_buffer), &error) < 0) {
+        if (pa_simple_read(pa_connection, this->pcm_buffer, sizeof(pcm_buffer), &error) < 0) {
 	    cerr << "pa_simple_read() failed: error " << pa_strerror(error) << "\n";
         }
-	for(int i=0; i<pcm_buffer_length; i++){
-		this->pcm_buffer[i] = pcm_buffer[i];
-	}
 }
 
 uint8_t* soundSource::get_pcm_buffer() const{
@@ -59,5 +55,3 @@ uint8_t* soundSource::get_pcm_buffer() const{
 int soundSource::get_pcm_buffer_length() const{
 	return pcm_buffer_length;
 }
-soundSource::~soundSource(){}
-
