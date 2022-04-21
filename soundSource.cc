@@ -4,9 +4,9 @@ using namespace std;
 
 #include "soundSource.h"
 
-#define BUFFSIZE 44100
+#define BUFFSIZE 1024
 
-soundSource::soundSource():pcm_buffer{nullptr}, pcm_buffer_length{BUFFSIZE}{
+soundSource::soundSource():pcm_buffer{(uint8_t*) malloc(sizeof(uint8_t)*BUFFSIZE)}, pcm_buffer_length{BUFFSIZE}{
 
 	// Set up new simple pulseaudio stream
 	const char* application_name = "Sound Visualizer";
@@ -41,20 +41,22 @@ soundSource::soundSource():pcm_buffer{nullptr}, pcm_buffer_length{BUFFSIZE}{
 
 void soundSource::read_stream(){
 	int error;
-	uint16_t pcm_buffer[pcm_buffer_length];
+	uint8_t pcm_buffer[pcm_buffer_length];
  
         /* Record some data ... */
         if (pa_simple_read(pa_connection, pcm_buffer, sizeof(pcm_buffer), &error) < 0) {
 	    cerr << "pa_simple_read() failed: error " << pa_strerror(error) << "\n";
         }
-	this->pcm_buffer = pcm_buffer;
+	for(int i=0; i<pcm_buffer_length; i++){
+		this->pcm_buffer[i] = pcm_buffer[i];
+	}
 }
 
-uint16_t* soundSource::get_pcm_buffer(){
+uint8_t* soundSource::get_pcm_buffer() const{
 	return pcm_buffer;
 }
 
-int soundSource::get_pcm_buffer_length(){
+int soundSource::get_pcm_buffer_length() const{
 	return pcm_buffer_length;
 }
 soundSource::~soundSource(){}

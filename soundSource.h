@@ -13,14 +13,14 @@ class soundSource{
 
 
 	pa_simple *pa_connection;
-	uint16_t *pcm_buffer;
+	uint8_t* pcm_buffer;
 	int pcm_buffer_length;
 
 	public:
 	soundSource();
 	void read_stream();
-	int get_pcm_buffer_length();
-	uint16_t* get_pcm_buffer();
+	int get_pcm_buffer_length() const;
+	uint8_t* get_pcm_buffer() const;
 	~soundSource();
 
 };
