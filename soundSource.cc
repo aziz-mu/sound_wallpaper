@@ -4,7 +4,7 @@ using namespace std;
 
 #include "soundSource.h"
 
-#define BUFFSIZE 1024
+#define BUFFSIZE 32
 
 soundSource::soundSource():pcm_buffer{(uint8_t*) malloc(sizeof(uint8_t)*BUFFSIZE)}, pcm_buffer_length{BUFFSIZE}{
 
@@ -43,7 +43,7 @@ void soundSource::read_stream(){
 	int error;
  
         /* Record some data ... */
-        if (pa_simple_read(pa_connection, this->pcm_buffer, sizeof(pcm_buffer), &error) < 0) {
+        if (pa_simple_read(pa_connection, this->pcm_buffer, sizeof(this->pcm_buffer), &error) < 0) {
 	    cerr << "pa_simple_read() failed: error " << pa_strerror(error) << "\n";
         }
 }
