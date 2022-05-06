@@ -19,7 +19,7 @@ class soundSource{
 	public:
 	soundSource();
 	void read_stream();
-	int get_pcm_buffer_length() const;
+	size_t get_pcm_buffer_length() const;
 	uint8_t* get_pcm_buffer() const;
 	~soundSource();
 
